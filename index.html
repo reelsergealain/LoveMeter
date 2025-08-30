@@ -252,6 +252,11 @@
     <!-- Background Stars -->
     <div class="stars-bg" id="stars-container"></div>
     
+    <!-- Toast de notification -->
+    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white px-6 py-3 rounded-lg shadow-xl hidden z-50">
+        <span id="toastMessage" class="text-gray-700"></span>
+    </div>
+
     <!-- Bouton d'installation -->
     <button id="installButton" class="fixed top-4 right-4 px-4 py-2 bg-white text-purple-600 rounded-full shadow-lg hover:bg-purple-50 transition-all duration-300 hidden z-50 md:px-6 md:py-3">
         <span class="flex items-center">
@@ -263,28 +268,66 @@
     </button>
 
     <script>
-        // Gestion du bouton d'installation
-        document.addEventListener('DOMContentLoaded', () => {
+        // Fonction pour afficher un toast
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, duration);
+        }
+
+        // Gestion de l'installation
+        window.addEventListener('load', () => {
             const installBtn = document.getElementById('installButton');
             
+            // Forcer l'affichage du bouton pour le test
+            installBtn.classList.remove('hidden');
+            
+            // Log pour vérifier si le navigateur supporte l'installation
+            const isPWAInstallable = 'serviceWorker' in navigator && 'BeforeInstallPromptEvent' in window;
+            console.log('PWA installable:', isPWAInstallable);
+            
             window.addEventListener('beforeinstallprompt', (e) => {
+                console.log('beforeinstallprompt event triggered');
                 e.preventDefault();
                 window.deferredPrompt = e;
                 installBtn.classList.remove('hidden');
+                showToast('Vous pouvez installer cette application !');
             });
 
             installBtn.addEventListener('click', async () => {
-                if (window.deferredPrompt) {
-                    window.deferredPrompt.prompt();
-                    const { outcome } = await window.deferredPrompt.userChoice;
-                    console.log(`Installation ${outcome}`);
-                    window.deferredPrompt = null;
-                    installBtn.classList.add('hidden');
+                console.log('Install button clicked');
+                console.log('deferredPrompt:', window.deferredPrompt);
+                
+                try {
+                    if (window.deferredPrompt) {
+                        window.deferredPrompt.prompt();
+                        const { outcome } = await window.deferredPrompt.userChoice;
+                        console.log('Installation outcome:', outcome);
+                        showToast(`Installation ${outcome === 'accepted' ? 'réussie !' : 'annulée'}`);
+                        window.deferredPrompt = null;
+                        installBtn.classList.add('hidden');
+                    } else {
+                        // Si le navigateur supporte l'installation mais que deferredPrompt n'est pas disponible
+                        if (isPWAInstallable) {
+                            showToast('Installation via les paramètres du navigateur');
+                        } else {
+                            showToast('Votre navigateur ne supporte pas l\'installation d\'applications');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Installation error:', error);
+                    showToast('Erreur lors de l\'installation. Veuillez réessayer.');
                 }
             });
 
             // Si l'app est déjà installée
-            window.addEventListener('appinstalled', () => {
+            window.addEventListener('appinstalled', (e) => {
+                console.log('App installed successfully');
+                showToast('Application installée avec succès !');
                 installBtn.classList.add('hidden');
                 window.deferredPrompt = null;
             });
