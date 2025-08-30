@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur d'Amour Premium - REEL SERGE ALAIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
+        .font-dancing {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .heart-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .heart-float:nth-child(2) { animation-delay: 0.5s; }
+        .heart-float:nth-child(3) { animation-delay: 1s; }
+        .heart-float:nth-child(4) { animation-delay: 1.5s; }
+        .heart-float:nth-child(5) { animation-delay: 2s; }
+        .heart-float:nth-child(6) { animation-delay: 2.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            25% { transform: translateY(-15px) rotate(2deg); opacity: 1; }
+            50% { transform: translateY(-30px) rotate(-2deg); opacity: 0.8; }
+            75% { transform: translateY(-15px) rotate(1deg); opacity: 1; }
+        }
+        
+        .pulse-heart {
+            animation: pulse-heart 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-heart {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            border-radius: 50%;
+            animation: sparkle 3s linear infinite;
+            box-shadow: 0 0 10px #fbbf24;
+        }
+        
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            25% { opacity: 1; transform: scale(1) rotate(90deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+            75% { opacity: 0.7; transform: scale(0.8) rotate(270deg); }
+            100% { opacity: 0; transform: scale(0) rotate(360deg); }
+        }
+        
+        .premium-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: premium-gradient 15s ease infinite;
+        }
+        
+        @keyframes premium-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .glass-premium {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loading-heart {
+            animation: loading-pulse 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes loading-pulse {
+            0% { transform: scale(0.6) rotate(-10deg); opacity: 0.4; filter: hue-rotate(0deg); }
+            100% { transform: scale(1.4) rotate(10deg); opacity: 1; filter: hue-rotate(180deg); }
+        }
+        
+        .result-fade-in {
+            animation: result-fade-in 2s ease-out;
+        }
+        
+        @keyframes result-fade-in {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.6) rotateX(90deg); 
+            }
+            30% { 
+                opacity: 0.3; 
+                transform: translateY(20px) scale(0.8) rotateX(45deg); 
+            }
+            60% { 
+                opacity: 0.8; 
+                transform: translateY(-5px) scale(1.05) rotateX(-5deg); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1) rotateX(0deg); 
+            }
+        }
+        
+        .percentage-counter {
+            animation: count-up 3s ease-out;
+            text-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+        }
+        
+        @keyframes count-up {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            30% { transform: scale(0.5) rotate(-90deg); opacity: 0.3; }
+            60% { transform: scale(1.3) rotate(0deg); opacity: 0.8; }
+            80% { transform: scale(0.9) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: twinkle 4s linear infinite;
+        }
+        
+        .star-small {
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .star-medium {
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            box-shadow: 0 0 10px #fbbf24;
+        }
+        
+        .star-large {
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(45deg, #ec4899, #be185d);
+            box-shadow: 0 0 15px #ec4899;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            25% { opacity: 1; transform: scale(1.2); }
+            50% { opacity: 0.6; transform: scale(1); }
+            75% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-hover-effect:hover::before {
+            left: 100%;
+        }
+        
+        .visit-counter {
+            animation: visit-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes visit-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6), 0 0 30px rgba(34, 197, 94, 0.3); }
+        }
+        
+        .premium-border {
+            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 400% 400%;
+            animation: premium-border 3s ease infinite;
+            padding: 2px;
+            border-radius: 1rem;
+        }
+        
+        @keyframes premium-border {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .love-wave {
+            animation: love-wave 3s ease-in-out infinite;
+        }
+        
+        @keyframes love-wave {
+            0%, 100% { transform: translateX(0px) rotate(0deg); }
+            25% { transform: translateX(5px) rotate(1deg); }
+            50% { transform: translateX(-5px) rotate(-1deg); }
+            75% { transform: translateX(3px) rotate(0.5deg); }
+        }
+    </style>
+</head>
+<body class="premium-gradient min-h-screen font-poppins overflow-x-hidden">
+    <!-- Background Stars -->
+    <div class="stars-bg" id="stars-container"></div>
+    
+    <!-- Visit Counter -->
+    <div class="fixed top-4 right-4 z-20 visit-counter bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-lg px-4 py-2">
+        <div class="flex items-center space-x-2 text-green-100">
+            <span class="text-xl">👁️</span>
+            <div class="text-sm font-medium">
+                <div>Visites: <span id="visit-count" class="font-bold text-green-300">0</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="relative z-10 min-h-screen flex items-center justify-center p-4">
+        <div class="premium-border">
+            <div class="glass-premium rounded-2xl p-8 max-w-lg w-full">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="mb-4">
+                        <h1 class="font-dancing text-5xl md:text-6xl text-white mb-2 love-wave">
+                            💖 Calculateur d'Amour 💖
+                        </h1>
+                        <div class="w-32 h-1 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 mx-auto rounded-full"></div>
+                    </div>
+                    <p class="text-pink-100 text-base font-medium">Découvrez votre compatibilité amoureuse avec précision</p>
+                    <div class="flex justify-center mt-6 space-x-3">
+                        <div class="heart-float text-3xl">💖</div>
+                        <div class="heart-float text-3xl">💝</div>
+                        <div class="heart-float text-3xl">💗</div>
+                        <div class="heart-float text-3xl">💓</div>
+                        <div class="heart-float text-3xl">💕</div>
+                        <div class="heart-float text-3xl">❤️</div>
+                    </div>
+                </div>
+                
+                <!-- Form -->
+                <form id="love-form" class="space-y-6">
+                    <div>
+                        <label class="block text-white text-sm font-semibold mb-3">✨ Votre prénom</label>
+                        <input 
+                            type="text" 
+                            id="name1" 
+                            required
+                            class="w-full px-6 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder-pink-200 focus:outline-none focus:ring-4 focus:ring-pink-400/50 focus:border-pink-300 transition-all duration-500 backdrop-blur-sm text-lg"
+                            placeholder="Entrez votre prénom..."
+                        >
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white text-sm font-semibold mb-3">✨ Prénom de votre partenaire</label>
+                        <input 
+                            type="text" 
+                            id="name2" 
+                            required
+                            class="w-full px-6 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder-pink-200 focus:outline-none focus:ring-4 focus:ring-pink-400/50 focus:border-pink-300 transition-all duration-500 backdrop-blur-sm text-lg"
+                            placeholder="Entrez le prénom de votre partenaire..."
+                        >
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        class="w-full btn-hover-effect bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white font-bold py-5 px-8 rounded-2xl transform transition-all duration-500 hover:scale-105 shadow-2xl text-lg"
+                    >
+                        ✨💕 Révéler Notre Amour 💕✨
+                    </button>
+                </form>
+                
+                <!-- Loading Animation -->
+                <div id="loading" class="hidden text-center py-8">
+                    <div class="mb-6">
+                        <h3 class="font-playfair text-2xl text-white font-semibold mb-4">Analyse en cours...</h3>
+                        <div class="flex justify-center space-x-3 mb-6">
+                            <div class="loading-heart text-5xl">❤️</div>
+                            <div class="loading-heart text-5xl" style="animation-delay: 0.2s;">💖</div>
+                            <div class="loading-heart text-5xl" style="animation-delay: 0.4s;">💕</div>
+                            <div class="loading-heart text-5xl" style="animation-delay: 0.6s;">💗</div>
+                            <div class="loading-heart text-5xl" style="animation-delay: 0.8s;">💓</div>
+                        </div>
+                        <div class="space-y-2 text-pink-100 text-sm">
+                            <div id="loading-text">Analyse des vibrations énergétiques...</div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden shadow-inner">
+                        <div id="progress-bar" class="bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 h-3 rounded-full transition-all duration-300 shadow-lg"></div>
+                    </div>
+                    <div class="text-right mt-2 text-pink-200 text-xs font-medium">
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+                
+                <!-- Result -->
+                <div id="result" class="hidden text-center py-6">
+                    <div class="result-fade-in">
+                        <div class="relative mb-8">
+                            <div class="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 percentage-counter font-playfair" id="percentage">0%</div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div id="floating-hearts" class="absolute"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-white/20 to-white/10 rounded-3xl p-8 mb-8 border border-white/30 shadow-xl">
+                            <div class="flex justify-center mb-4">
+                                <span class="text-4xl" id="compatibility-emoji">💖</span>
+                            </div>
+                            <h3 class="text-white text-2xl font-bold mb-4 font-playfair" id="couple-names"></h3>
+                            <div class="w-24 h-1 bg-gradient-to-r from-pink-400 to-purple-400 mx-auto rounded-full mb-4"></div>
+                            <p class="text-pink-100 text-base leading-relaxed font-medium" id="love-advice"></p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <button 
+                                id="download-btn"
+                                class="w-full btn-hover-effect bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-2xl transform transition-all duration-500 hover:scale-105 shadow-2xl"
+                            >
+                                📸✨ Télécharger Certificat d'Amour ✨📸
+                            </button>
+                            
+                            <button 
+                                id="restart-btn"
+                                class="w-full bg-white/15 hover:bg-white/25 text-white font-semibold py-4 px-8 rounded-2xl transform transition-all duration-500 hover:scale-105 border-2 border-white/30 hover:border-white/50"
+                            >
+                                🔄 Nouvelle Analyse d'Amour
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Premium Footer -->
+                <div class="text-center mt-8 p-4 bg-black/20 rounded-2xl border border-white/20">
+                    <div class="text-pink-200 text-sm font-semibold">
+                        <p class="font-playfair text-lg text-white mb-1">💎 REEL SERGE ALAIN 💎</p>
+                        <p class="text-pink-300 font-medium">Expert en Relations & Amour</p>
+                        <p class="text-pink-400 font-bold">📞 +225 07 1111 3420</p>
+                        <div class="mt-2 text-xs text-pink-300">
+                            <p>⭐ Service Premium de Compatibilité Amoureuse ⭐</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Canvas for premium image generation -->
+    <canvas id="result-canvas" class="hidden" width="1200" height="900"></canvas>
+    
+    <script>
+        // Variables globales
+        let currentPercentage = 0;
+        let currentNames = { name1: '', name2: '' };
+        let visitCount = 0;
+        
+        // Initialiser le compteur de visites
+        function initVisitCounter() {
+            // Simuler un compteur de visites (en réalité stocké en mémoire pour cette session)
+            visitCount = Math.floor(Math.random() * 5000) + 1247; // Commencer avec un nombre réaliste
+            visitCount += 1; // Nouvelle visite
+            document.getElementById('visit-count').textContent = visitCount.toLocaleString();
+            
+            // Animer le compteur au chargement
+            let currentDisplay = 0;
+            const increment = visitCount / 30;
+            const counterInterval = setInterval(() => {
+                currentDisplay += increment;
+                if (currentDisplay >= visitCount) {
+                    currentDisplay = visitCount;
+                    clearInterval(counterInterval);
+                }
+                document.getElementById('visit-count').textContent = Math.floor(currentDisplay).toLocaleString();
+            }, 50);
+        }
+        
+        // Créer les étoiles de fond avec différentes tailles
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            const starTypes = [
+                { class: 'star-small', count: 80 },
+                { class: 'star-medium', count: 30 },
+                { class: 'star-large', count: 15 }
+            ];
+            
+            starTypes.forEach(type => {
+                for (let i = 0; i < type.count; i++) {
+                    const star = document.createElement('div');
+                    star.className = `star ${type.class}`;
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.animationDelay = Math.random() * 4 + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(star);
+                }
+            });
+        }
+        
+        // Fonction pour créer un hash cohérent
+        function hashString(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        }
+        
+        // Calculer le pourcentage d'amour
+        function calculateLovePercentage(name1, name2) {
+            const n1 = name1.toLowerCase().trim();
+            const n2 = name2.toLowerCase().trim();
+            
+            if (n1 === n2) return 100;
+            
+            const combination = [n1, n2].sort().join('');
+            const hash = hashString(combination);
+            return (hash % 75) + 25;
+        }
+        
+        // Obtenir un conseil d'amour et emoji basé sur le pourcentage
+        function getLoveAdvice(percentage) {
+            const adviceRanges = [
+                {
+                    min: 95, max: 100,
+                    emoji: "👑",
+                    advice: "🔥 AMOUR LÉGENDAIRE ! Votre connexion transcende l'ordinaire. Vous êtes des âmes sœurs destinées l'une à l'autre. Cultivez cette magie rare et précieuse."
+                },
+                {
+                    min: 85, max: 94,
+                    emoji: "✨",
+                    advice: "💫 HARMONIE PARFAITE ! Votre amour rayonne d'une énergie exceptionnelle. Continuez à vous soutenir mutuellement et à grandir ensemble."
+                },
+                {
+                    min: 75, max: 84,
+                    emoji: "🌟",
+                    advice: "🌺 BELLE COMPLICITÉ ! Votre relation a des fondations solides. Explorez de nouvelles aventures ensemble pour enrichir votre lien."
+                },
+                {
+                    min: 65, max: 74,
+                    emoji: "💝",
+                    advice: "🌸 POTENTIEL MAGNIFIQUE ! Votre amour grandit naturellement. Prenez le temps de vous écouter et de partager vos rêves."
+                },
+                {
+                    min: 55, max: 64,
+                    emoji: "🌷",
+                    advice: "🌿 CONNEXION PROMETTEUSE ! Chaque jour est une opportunité d'approfondir votre relation. La patience et la tendresse sont vos alliées."
+                },
+                {
+                    min: 25, max: 54,
+                    emoji: "🌹",
+                    advice: "🦋 AMOUR EN DÉVELOPPEMENT ! Les plus belles histoires commencent parfois doucement. Focalisez-vous sur vos affinités et laissez l'amour s'épanouir."
+                }
+            ];
+            
+            const range = adviceRanges.find(r => percentage >= r.min && percentage <= r.max);
+            return range || { emoji: "💖", advice: "L'amour est un mystère merveilleux qui s'écrit jour après jour ! ✨" };
+        }
+        
+        // Textes de chargement dynamiques
+        const loadingTexts = [
+            "Analyse des vibrations énergétiques...",
+            "Calcul des affinités cosmiques...",
+            "Mesure de la synchronicité amoureuse...",
+            "Évaluation de la compatibilité spirituelle...",
+            "Génération du certificat d'amour..."
+        ];
+        
+        // Animation de progression avancée
+        function animateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const loadingTextElement = document.getElementById('loading-text');
+            let progress = 0;
+            let textIndex = 0;
+            
+            const interval = setInterval(() => {
+                progress += 2;
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progress + '%';
+                
+                // Changer le texte de chargement
+                if (progress % 20 === 0 && textIndex < loadingTexts.length - 1) {
+                    textIndex++;
+                    loadingTextElement.textContent = loadingTexts[textIndex];
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 80);
+        }
+        
+        // Animation du pourcentage améliorée
+        function animatePercentage(targetPercentage) {
+            const element = document.getElementById('percentage');
+            let current = 0;
+            const increment = targetPercentage / 60;
+            
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= targetPercentage) {
+                    current = targetPercentage;
+                    clearInterval(interval);
+                }
+                element.textContent = Math.round(current) + '%';
+                
+                // Ajouter des effets visuels pendant l'animation
+                if (Math.random() > 0.6) {
+                    createFloatingHeart();
+                    createSparkle();
+                }
+            }, 50);
+        }
+        
+        // Créer des cœurs flottants améliorés
+        function createFloatingHeart() {
+            const container = document.getElementById('floating-hearts');
+            const heart = document.createElement('div');
+            const hearts = ['💖', '💕', '💗', '💓', '❤️', '💝', '💘'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.className = 'absolute text-3xl pointer-events-none';
+            
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 150 + Math.random() * 100;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            heart.style.opacity = '0';
+            heart.style.transform = 'scale(0) rotate(' + (Math.random() * 360) + 'deg)';
+            heart.style.animation = 'float 3s ease-out forwards';
+            
+            container.appendChild(heart);
+            
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, 3000);
+        }
+        
+        // Créer des sparkles améliorés
+        function createSparkle() {
+            const container = document.getElementById('floating-hearts');
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 100 + Math.random() * 150;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            
+            container.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (sparkle.parentNode) {
+                    sparkle.parentNode.removeChild(sparkle);
+                }
+            }, 3000);
+        }
+        
+        // Générer l'image premium de résultat
+        function generatePremiumImage(name1, name2, percentage) {
+            const canvas = document.getElementById('result-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Fond dégradé premium
+            const gradient = ctx.createLinearGradient(0, 0, 1200, 900);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(0.25, '#764ba2');
+            gradient.addColorStop(0.5, '#f093fb');
+            gradient.addColorStop(0.75, '#f5576c');
+            gradient.addColorStop(1, '#4facfe');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1200, 900);
+            
+            // Overlay pattern
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * 1200;
+                const y = Math.random() * 900;
+                const size = Math.random() * 100 + 20;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // Cœurs décoratifs premium
+            ctx.font = '60px Arial';
+            const hearts = ['💖', '💕', '💗', '💓', '❤️', '💝', '💘', '💞', '💟'];
+            for (let i = 0; i < 25; i++) {
+                const x = Math.random() * 1000 + 100;
+                const y = Math.random() * 700 + 100;
+                const heart = hearts[Math.floor(Math.random() * hearts.length)];
+                ctx.globalAlpha = 0.3;
+                ctx.fillText(heart, x, y);
+            }
+            ctx.globalAlpha = 1;
+            
+            // Bordure décorative premium
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.roundRect(80, 80, 1040, 740, 40);
+            ctx.stroke();
+            
+            // Fond principal du certificat
+            const mainGradient = ctx.createRadialGradient(600, 450, 50, 600, 450, 400);
+            mainGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+            mainGradient.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
+            ctx.fillStyle = mainGradient;
+            ctx.beginPath();
+            ctx.roundRect(150, 150, 900, 600, 30);
+            ctx.fill();
+            
+            // Bordure intérieure dorée
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.roundRect(170, 170, 860, 560, 25);
+            ctx.stroke();
+            
+            // En-tête du certificat
+            ctx.fillStyle = '#7c3aed';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('💎 CERTIFICAT D\'AMOUR PREMIUM 💎', 600, 240);
+            
+            // Ligne décorative
+            ctx.strokeStyle = '#ec4899';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(250, 260);
+            ctx.lineTo(950, 260);
+            ctx.stroke();
+            
+            // Noms des partenaires
+            ctx.fillStyle = '#be185d';
+            ctx.font = 'bold 42px Arial';
+            ctx.fillText(`${name1} 💕 ${name2}`, 600, 330);
+            
+            // Pourcentage principal avec style premium
+            ctx.save();
+            ctx.fillStyle = '#dc2626';
+            ctx.font = 'bold 120px Arial';
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 3;
+            ctx.strokeText(`${percentage}%`, 600, 450);
+            ctx.fillText(`${percentage}%`, 600, 450);
+            ctx.restore();
+            
+            // Sous-titre de compatibilité
+            const advice = getLoveAdvice(percentage);
+            ctx.fillStyle = '#1f2937';
+            ctx.font = 'bold 28px Arial';
+            ctx.fillText('NIVEAU DE COMPATIBILITÉ', 600, 500);
+            
+            // Barre de compatibilité visuelle
+            const barWidth = 400;
+            const barHeight = 20;
+            const barX = 400;
+            const barY = 520;
+            
+            // Fond de la barre
+            ctx.fillStyle = '#e5e7eb';
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+            
+            // Remplissage de la barre
+            const fillWidth = (percentage / 100) * barWidth;
+            const barGradient = ctx.createLinearGradient(barX, barY, barX + fillWidth, barY);
+            if (percentage >= 80) {
+                barGradient.addColorStop(0, '#10b981');
+                barGradient.addColorStop(1, '#059669');
+            } else if (percentage >= 60) {
+                barGradient.addColorStop(0, '#f59e0b');
+                barGradient.addColorStop(1, '#d97706');
+            } else {
+                barGradient.addColorStop(0, '#ef4444');
+                barGradient.addColorStop(1, '#dc2626');
+            }
+            ctx.fillStyle = barGradient;
+            ctx.fillRect(barX, barY, fillWidth, barHeight);
+            
+            // Conseil d'amour (texte multiligne)
+            ctx.fillStyle = '#374151';
+            ctx.font = '24px Arial';
+            const maxWidth = 700;
+            const lineHeight = 35;
+            let y = 580;
+            
+            const words = advice.advice.split(' ');
+            let line = '';
+            
+            for (let word of words) {
+                const testLine = line + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && line) {
+                    ctx.fillText(line.trim(), 600, y);
+                    line = word + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line.trim(), 600, y);
+            
+            // Section branding premium
+            ctx.fillStyle = 'rgba(124, 58, 237, 0.1)';
+            ctx.fillRect(200, 680, 800, 100);
+            
+            // Logo/Nom professionnel
+            ctx.fillStyle = '#1f2937';
+            ctx.font = 'bold 36px Arial';
+            ctx.fillText('💎 REEL SERGE ALAIN 💎', 600, 720);
+            
+            ctx.fillStyle = '#7c3aed';
+            ctx.font = 'bold 22px Arial';
+            ctx.fillText('Expert Certifié en Relations & Compatibilité Amoureuse', 600, 750);
+            
+            ctx.fillStyle = '#059669';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText('📞 +225 07 1111 3420 | Service Premium 24/7', 600, 780);
+            
+            // Date et numéro de certificat
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '18px Arial';
+            ctx.textAlign = 'left';
+            const today = new Date().toLocaleDateString('fr-FR');
+            ctx.fillText(`Date: ${today}`, 200, 820);
+            
+            ctx.textAlign = 'right';
+            const certNumber = 'CERT-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            ctx.fillText(`N° Certificat: ${certNumber}`, 1000, 820);
+            
+            // QR Code simulé (décoratif)
+            ctx.fillStyle = '#1f2937';
+            ctx.fillRect(950, 200, 80, 80);
+            ctx.fillStyle = '#ffffff';
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    if (Math.random() > 0.5) {
+                        ctx.fillRect(952 + i * 9, 202 + j * 9, 7, 7);
+                    }
+                }
+            }
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        // Helper function pour les rectangles arrondis
+        CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+            if (w < 2 * r) r = w / 2;
+            if (h < 2 * r) r = h / 2;
+            this.beginPath();
+            this.moveTo(x + r, y);
+            this.arcTo(x + w, y, x + w, y + h, r);
+            this.arcTo(x + w, y + h, x, y + h, r);
+            this.arcTo(x, y + h, x, y, r);
+            this.arcTo(x, y, x + w, y, r);
+            this.closePath();
+            return this;
+        }
+        
+        // Gérer la soumission du formulaire
+        document.getElementById('love-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            
+            if (!name1 || !name2) return;
+            
+            currentNames = { name1, name2 };
+            
+            // Transition fluide
+            document.getElementById('love-form').style.opacity = '0';
+            document.getElementById('love-form').style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                document.getElementById('love-form').classList.add('hidden');
+                document.getElementById('loading').classList.remove('hidden');
+                
+                // Reset opacity
+                document.getElementById('love-form').style.opacity = '1';
+                document.getElementById('love-form').style.transform = 'scale(1)';
+            }, 300);
+            
+            // Démarrer l'animation de progression
+            animateProgress();
+            
+            // Calculer pendant le chargement
+            currentPercentage = calculateLovePercentage(name1, name2);
+            
+            // Simuler le chargement premium
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
+            // Cacher le chargement et afficher le résultat
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            
+            // Mettre à jour le contenu du résultat
+            document.getElementById('couple-names').textContent = `${name1} & ${name2}`;
+            const advice = getLoveAdvice(currentPercentage);
+            document.getElementById('love-advice').textContent = advice.advice;
+            document.getElementById('compatibility-emoji').textContent = advice.emoji;
+            
+            // Animer le pourcentage
+            animatePercentage(currentPercentage);
+            
+            // Créer une explosion de sparkles
+            setTimeout(() => {
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => createSparkle(), i * 100);
+                }
+            }, 1000);
+        });
+        
+        // Créer des sparkles continus autour du résultat
+        function createContinuousSparkles() {
+            const container = document.getElementById('floating-hearts');
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = (Math.random() * 400 - 200) + 'px';
+                    sparkle.style.top = (Math.random() * 400 - 200) + 'px';
+                    sparkle.style.animationDelay = Math.random() * 3 + 's';
+                    container.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.parentNode.removeChild(sparkle);
+                        }
+                    }, 3000);
+                }, i * 200);
+            }
+        }
+        
+        // Télécharger l'image premium
+        document.getElementById('download-btn').addEventListener('click', function() {
+            // Effet visuel sur le bouton
+            this.innerHTML = '⏳ Génération en cours...';
+            this.disabled = true;
+            
+            setTimeout(() => {
+                const imageData = generatePremiumImage(currentNames.name1, currentNames.name2, currentPercentage);
+                
+                const link = document.createElement('a');
+                const filename = `Certificat-Amour-Premium-${currentNames.name1}-${currentNames.name2}-${currentPercentage}%.png`;
+                link.download = filename;
+                link.href = imageData;
+                link.click();
+                
+                // Restaurer le bouton
+                this.innerHTML = '✅ Certificat téléchargé ! 📸✨';
+                setTimeout(() => {
+                    this.innerHTML = '📸✨ Télécharger Certificat d\'Amour ✨📸';
+                    this.disabled = false;
+                }, 2000);
+            }, 1500);
+        });
+        
+        // Recommencer avec animation
+        document.getElementById('restart-btn').addEventListener('click', function() {
+            // Animation de sortie
+            document.getElementById('result').style.opacity = '0';
+            document.getElementById('result').style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                document.getElementById('result').classList.add('hidden');
+                document.getElementById('love-form').classList.remove('hidden');
+                document.getElementById('name1').value = '';
+                document.getElementById('name2').value = '';
+                document.getElementById('percentage').textContent = '0%';
+                document.getElementById('progress-bar').style.width = '0%';
+                document.getElementById('progress-text').textContent = '0%';
+                document.getElementById('loading-text').textContent = loadingTexts[0];
+                
+                // Reset styles
+                document.getElementById('result').style.opacity = '1';
+                document.getElementById('result').style.transform = 'scale(1)';
+                
+                // Nettoyer les éléments flottants
+                document.getElementById('floating-hearts').innerHTML = '';
+                
+                // Focus sur le premier champ
+                document.getElementById('name1').focus();
+            }, 300);
+        });
+        
+        // Effets visuels sur les inputs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 0 30px rgba(236, 72, 153, 0.3)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    this.style.borderColor = 'rgba(34, 197, 94, 0.5)';
+                    this.style.background = 'rgba(34, 197, 94, 0.1)';
+                } else {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    this.style.background = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        });
+        
+        // Effet parallax léger sur le scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.stars-bg');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+        
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initVisitCounter();
+            createStars();
+            
+            // Animation d'entrée pour le titre
+            setTimeout(() => {
+                document.querySelector('h1').style.animation = 'result-fade-in 2s ease-out';
+            }, 500);
+            
+            // Créer des sparkles périodiques en arrière-plan
+            setInterval(() => {
+                if (!document.getElementById('result').classList.contains('hidden')) {
+                    createContinuousSparkles();
+                }
+            }, 3000);
+        });
+        
+        // Easter egg - Double clic sur le titre
+        document.querySelector('h1').addEventListener('dblclick', function() {
+            // Explosion de cœurs
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = '0px';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.zIndex = '1000';
+                    heart.style.animation = 'fall 3s linear forwards';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 3000);
+                }, i * 100);
+            }
+        });
+        
+        // Animation de chute pour l'easter egg
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(${window.innerHeight + 100}px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Gestion du redimensionnement
+        window.addEventListener('resize', function() {
+            // Recalculer les positions des étoiles si nécessaire
+            clearTimeout(this.resizeTimer);
+            this.resizeTimer = setTimeout(() => {
+                // Optionnel: recréer les étoiles pour la nouvelle taille
+            }, 250);
+        });
+        
+        // Préchargement des polices pour éviter le FOUC
+        const fontPreloader = document.createElement('div');
+        fontPreloader.style.fontFamily = 'Dancing Script, Poppins, Playfair Display';
+        fontPreloader.style.position = 'absolute';
+        fontPreloader.style.visibility = 'hidden';
+        fontPreloader.textContent = 'Preload';
+        document.body.appendChild(fontPreloader);
+        setTimeout(() => document.body.removeChild(fontPreloader), 100);
+    </script>
+</body>
+</html>
