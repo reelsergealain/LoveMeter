@@ -13,6 +13,49 @@
     <meta name="apple-mobile-web-app-title" content="Love Calculator">
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2FsY3VsYXRldXIgZCdBbW91ciBQcmVtaXVtIiwic2hvcnRfbmFtZSI6IkxvdmUgQ2FsYyIsImRlc2NyaXB0aW9uIjoiRMOpY291dnJleiBub3RyZSBjb21wYXRpYmlsaXTDqSBhbW91cmV1c2UiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzY2N2VlYSIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMGlNakEwSWlCb1pXbG5hSFE5SWpJd05DSWdkbWxsZDBKdmVEMGlNQ0F3SURJME5DQXlORFFpSUdobGJXNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrUEhCaGRHZ2daRDBpVFRFeU1DQXpNRUV6TURZMU1EWXhMakkxTlRCRU1Ua3lOemtnTVRNeE16UkJOVGcwTGpRMU16RXhOalExTlRVMk1qVTVObHAgTkRFdU5qZ3pOall6SWwwPSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
     
+    <!-- Service Worker Registration -->
+    <script>
+        // Création du service worker en tant que Blob
+        const swContent = `
+            const CACHE_NAME = 'love-calculator-v1';
+            const urlsToCache = [
+                './',
+                'index.html',
+                'https://cdn.tailwindcss.com',
+                'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap'
+            ];
+
+            self.addEventListener('install', (event) => {
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then((cache) => cache.addAll(urlsToCache))
+                );
+            });
+
+            self.addEventListener('fetch', (event) => {
+                event.respondWith(
+                    caches.match(event.request)
+                        .then((response) => response || fetch(event.request))
+                );
+            });
+        `;
+
+        const blob = new Blob([swContent], { type: 'text/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register(swUrl)
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch((error) => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+
+        // La variable deferredPrompt est maintenant déclarée globalement dans l'autre script
+    </script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
         
@@ -173,6 +216,44 @@
 <body class="premium-gradient min-h-screen font-poppins overflow-x-hidden">
     <!-- Background Stars -->
     <div class="stars-bg" id="stars-container"></div>
+    
+    <!-- Bouton d'installation -->
+    <button id="installButton" class="fixed top-4 right-4 px-4 py-2 bg-white text-purple-600 rounded-full shadow-lg hover:bg-purple-50 transition-all duration-300 hidden z-50 md:px-6 md:py-3">
+        <span class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            Installer l'application
+        </span>
+    </button>
+
+    <script>
+        // Gestion du bouton d'installation
+        const installBtn = document.getElementById('installButton');
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Installation ${outcome}`);
+                deferredPrompt = null;
+                installBtn.classList.add('hidden');
+            }
+        });
+
+        // Si l'app est déjà installée
+        window.addEventListener('appinstalled', () => {
+            installBtn.classList.add('hidden');
+            deferredPrompt = null;
+        });
+    </script>
     
     <!-- Visit Counter -->
     <div class="fixed top-4 right-4 z-20 visit-counter bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-lg px-4 py-2">
