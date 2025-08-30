@@ -13,47 +13,82 @@
     <meta name="apple-mobile-web-app-title" content="Love Calculator">
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2FsY3VsYXRldXIgZCdBbW91ciBQcmVtaXVtIiwic2hvcnRfbmFtZSI6IkxvdmUgQ2FsYyIsImRlc2NyaXB0aW9uIjoiRMOpY291dnJleiBub3RyZSBjb21wYXRpYmlsaXTDqSBhbW91cmV1c2UiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzY2N2VlYSIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMGlNakEwSWlCb1pXbG5hSFE5SWpJd05DSWdkbWxsZDBKdmVEMGlNQ0F3SURJME5DQXlORFFpSUdobGJXNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrUEhCaGRHZ2daRDBpVFRFeU1DQXpNRUV6TURZMU1EWXhMakkxTlRCRU1Ua3lOemtnTVRNeE16UkJOVGcwTGpRMU16RXhOalExTlRVMk1qVTVObHAgTkRFdU5qZ3pOall6SWwwPSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
     
-    <!-- Service Worker Registration -->
+    <!-- Installation et Service Worker -->
     <script>
+        // Variable globale pour l'installation
+        window.deferredPrompt = null;
+
         // Création du service worker en tant que Blob
         const swContent = `
             const CACHE_NAME = 'love-calculator-v1';
             const urlsToCache = [
                 './',
-                'index.html',
+                'lovely.html',
                 'https://cdn.tailwindcss.com',
                 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap'
             ];
 
             self.addEventListener('install', (event) => {
+                self.skipWaiting();
                 event.waitUntil(
                     caches.open(CACHE_NAME)
                         .then((cache) => cache.addAll(urlsToCache))
                 );
             });
 
+            self.addEventListener('activate', (event) => {
+                event.waitUntil(
+                    Promise.all([
+                        self.clients.claim(),
+                        caches.keys().then(cacheNames => {
+                            return Promise.all(
+                                cacheNames.map(cacheName => {
+                                    if (cacheName !== CACHE_NAME) {
+                                        return caches.delete(cacheName);
+                                    }
+                                })
+                            );
+                        })
+                    ])
+                );
+            });
+
             self.addEventListener('fetch', (event) => {
                 event.respondWith(
                     caches.match(event.request)
-                        .then((response) => response || fetch(event.request))
+                        .then((response) => {
+                            if (response) {
+                                return response;
+                            }
+                            return fetch(event.request)
+                                .then(response => {
+                                    if (!response || response.status !== 200 || response.type !== 'basic') {
+                                        return response;
+                                    }
+                                    const responseToCache = response.clone();
+                                    caches.open(CACHE_NAME)
+                                        .then(cache => {
+                                            cache.put(event.request, responseToCache);
+                                        });
+                                    return response;
+                                });
+                        })
                 );
             });
         `;
 
-        const blob = new Blob([swContent], { type: 'text/javascript' });
-        const swUrl = URL.createObjectURL(blob);
-
         if ('serviceWorker' in navigator) {
+            const blob = new Blob([swContent], { type: 'text/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
             navigator.serviceWorker.register(swUrl)
                 .then((registration) => {
-                    console.log('Service Worker registered:', registration);
+                    console.log('Service Worker enregistré avec succès');
                 })
                 .catch((error) => {
-                    console.log('Service Worker registration failed:', error);
+                    console.error('Erreur lors de l\'enregistrement du Service Worker:', error);
                 });
         }
-
-        // La variable deferredPrompt est maintenant déclarée globalement dans l'autre script
     </script>
     
     <style>
@@ -229,29 +264,30 @@
 
     <script>
         // Gestion du bouton d'installation
-        const installBtn = document.getElementById('installButton');
-        let deferredPrompt;
+        document.addEventListener('DOMContentLoaded', () => {
+            const installBtn = document.getElementById('installButton');
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                window.deferredPrompt = e;
+                installBtn.classList.remove('hidden');
+            });
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.classList.remove('hidden');
-        });
+            installBtn.addEventListener('click', async () => {
+                if (window.deferredPrompt) {
+                    window.deferredPrompt.prompt();
+                    const { outcome } = await window.deferredPrompt.userChoice;
+                    console.log(`Installation ${outcome}`);
+                    window.deferredPrompt = null;
+                    installBtn.classList.add('hidden');
+                }
+            });
 
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`Installation ${outcome}`);
-                deferredPrompt = null;
+            // Si l'app est déjà installée
+            window.addEventListener('appinstalled', () => {
                 installBtn.classList.add('hidden');
-            }
-        });
-
-        // Si l'app est déjà installée
-        window.addEventListener('appinstalled', () => {
-            installBtn.classList.add('hidden');
-            deferredPrompt = null;
+                window.deferredPrompt = null;
+            });
         });
     </script>
     
